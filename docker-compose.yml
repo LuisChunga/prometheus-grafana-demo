@@ -1,0 +1,96 @@
+version: '3.8'
+
+networks:
+  monitoring:
+    driver: bridge
+    
+volumes:
+  prometheus_data: 
+    driver: local
+  grafana-data:
+    driver: local
+
+services:
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    environment:
+      SERVICE_PRECONDITION: "grafana:3000"
+    pid: "host"
+    ports:
+      - '9090:9090'
+    networks:
+      - monitoring
+
+  # Node-exporter
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    environment:
+      SERVICE_PRECONDITION: "prometheus:9090"
+
+    ports:
+      - '9111:9100'
+
+    pid: "host"
+
+    networks:
+      - monitoring
+
+
+  grafana:
+    image: grafana/grafana
+    
+    container_name: grafana
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    volumes:
+      - './grafana.ini:/etc/grafana/grafana.ini'
+      - grafana-data:/var/lib/grafana
+    environment:
+      SERVICE_PRECONDITION: "prometheus:9090"
+    ports:
+      - '3000:3000'
+    
+    pid: "host"
+      
+    networks:
+      - monitoring
+
+  mirth:
+    #image: nextgenhealthcare/connect
+    image: sampleconnect
+    ports:
+     - '8443:8443'
+     - '5555:5555'
+     - '8080:8080'
+     - '9100:9100'
+    container_name: mirth
+    restart: unless-stopped
+    environment:
+      SERVICE_PRECONDITION: "prometheus:9090"
+
+   

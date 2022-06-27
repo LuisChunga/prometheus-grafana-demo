@@ -1,0 +1,36 @@
+Install docker 
+
+clone the repository 
+
+git clone https://github.com/LuisChunga/prometheus-grafana-demo
+
+cd promethues-grafana-demo.
+
+code .
+
+# make sure we are in the same directory
+docker build . -t sampleconnect 
+
+explaind docker file
+
+ipconfig
+	look for 
+	Wireless LAN adapter Wi-Fi
+		IPv4 Address 192.00.0.1
+
+modife the prometus file
+
+docker-compose -f .\docker-compose.yml up -d
+
+make sure the ports are available
+
+docker exec -u root -it mirth /bin/sh
+
+cd ..
+git clone https://github.com/prometheus/node_exporter.git
+cd node_exporter
+make
+./node_exporter
+
+
+adding Prometheus to grafana 
