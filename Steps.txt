@@ -1,36 +1,42 @@
 Install docker 
 
-clone the repository 
+open a powershel or Ternimal
 
+cd .\Desktop\
+
+# clone or download the repository 
 git clone https://github.com/LuisChunga/prometheus-grafana-demo
 
 cd promethues-grafana-demo.
 
 code .
 
-# make sure we are in the same directory
+# make sure we are in the same directory to build the image
 docker build . -t sampleconnect 
 
-explaind docker file
+# explain the docker file 
+https://hub.docker.com/r/nextgenhealthcare/connect
+https://github.com/prometheus/node_exporter
 
 ipconfig
-	look for 
-	Wireless LAN adapter Wi-Fi
-		IPv4 Address 192.00.0.1
+#	look for 
+#	Wireless LAN adapter Wi-Fi
+#		IPv4 Address 192.00.0.1
 
-modife the prometus file
+# modife the prometus file with your own ip address
+
 
 docker-compose -f .\docker-compose.yml up -d
 
-make sure the ports are available
+# Make sure the ports are available
 
+# Installing node_exporter to a custom image
 docker exec -u root -it mirth /bin/sh
 
-cd ..
-git clone https://github.com/prometheus/node_exporter.git
-cd node_exporter
-make
+cd .. && git clone https://github.com/prometheus/node_exporter.git
+
+cd node_exporter && make
+
 ./node_exporter
 
-
-adding Prometheus to grafana 
+# Adding Prometheus to grafana using the ip addes 192.00.0.1:9090
