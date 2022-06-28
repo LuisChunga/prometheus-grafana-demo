@@ -39,26 +39,16 @@ scrape_configs:
     static_configs:
       - targets: 
         - '192.168.1.206:9100'
-    # tls_config:
-    #   insecure_skip_verify: true
 
+  # This exporter is intended to be run as a Java Agent
   # - job_name: 'JMX_Expoter'
   #   scrape_interval: 15s
   #   static_configs:
   #     - targets: ['localhost:7077']
 
+  # Container Advisor analyzes and exposes resource usage and performance data from running containers
   # - job_name: 'cAdvisor'
   #   scrape_interval: 5s
   #   static_configs:
   #     - targets: ['localhost:5601']
-#
-  # - job_name: 'spring-boot-angular-jboss'
-  #   metrics_path: 'springboot2-jpa-crud-example-0.0.1-SNAPSHOT/actuator/prometheus'
-  #   scrape_interval: 15s
-  #   static_configs:
-  #     - targets: ['localhost:8000']
 
-  # - job_name: 'docker'
-  #   scrape_interval: 15s
-  #   static_configs:
-  #     - targets: ['localhost:9323']
