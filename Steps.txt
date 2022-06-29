@@ -33,7 +33,9 @@ docker-compose -f .\docker-compose.yml up -d
 # Installing node_exporter to a custom image
 docker exec -u root -it mirth /bin/sh
 
-cd .. && git clone https://github.com/prometheus/node_exporter.git
+cd ..
+
+ git clone https://github.com/prometheus/node_exporter.git
 
 cd node_exporter && make
 
